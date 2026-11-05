@@ -289,3 +289,38 @@ body {
   outline: 3px solid rgba(239, 68, 68, 0.35);
   outline-offset: 3px;
 }
+
+/*  update btn  */
+.update-btn {
+  background-color: #4ca822;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 8px;
+
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  width: 10%;
+  margin-top: 12px;
+}
+
+.update-btn:hover {
+  background-color: #144b25;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(157, 3, 3, 0.336);
+}
+
+.update-btn:active {
+  transform: translateY(0);
+  background-color: #0d6a37;
+}
+
+.update-btn:focus-visible {
+  outline: 3px solid rgba(239, 68, 68, 0.35);
+  outline-offset: 3px;
+}

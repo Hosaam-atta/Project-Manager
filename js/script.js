@@ -25,6 +25,7 @@ const form = document.getElementById("course-form");
 
 
 let nextId = data.length + 1 ;
+let updatedid = null ;
 
 
 function createCourseCard(course) {
@@ -42,12 +43,23 @@ function createCourseCard(course) {
   btnDelete.classList.add("btn-delet");
   btnDelete.textContent = "Delete";
 
+
+  const btnupdate = document.createElement('button');
+  btnupdate.type='button',
+  btnupdate.classList.add('update-btn');
+  btnupdate.textContent = "Update"
+
   btnDelete.addEventListener("click", () => {
     deleteCourse(course.id);
     renderCourses();
   });
 
-  card.append(heading, paragraph, btnDelete);
+  btnupdate.addEventListener('click' , ()=>{
+    updateonCource(course)
+ 
+  })
+
+  card.append(heading, paragraph, btnDelete ,btnupdate);
 
   return card;
 }
@@ -107,6 +119,27 @@ function deleteCourse(id) {
   data = data.filter((course) => course.id !== id);
 }
 
+function updateonCource(cource)
+{
+  updatedid = cource.id
+  console.log(updatedid);
+  
+  title.value = cource.title;
+  description.value = cource.description;
+}
+
+function updatedcource(id , newTitle , newDescription)
+{
+  const course = data.find((course) => course.id === id);
+
+  if (!course) {
+    return;
+  }
+
+  course.title = newTitle;
+  course.description = newDescription;
+
+}
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -119,14 +152,24 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  // Add course to array
-  addCourse(courseTitle, courseDescription);
+  if(updatedid !== null)
+  {
+  updatedcource(updatedid , courseTitle , courseDescription)
+  updatedid = null;
+  }else{
+     addCourse(courseTitle, courseDescription);
+  }
+
 
   // Update UI
   renderCourses();
 
   // Clear form
   form.reset();
+
+  
+
+  
 });
 
 renderCourses();
