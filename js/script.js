@@ -1,21 +1,8 @@
 
-let data = [
-  {
-    id: 1,
-    title: "Java Script",
-    description: "This a Programming language is good",
-  },
-  {
-    id: 2,
-    title: "HTML",
-    description: "HTML Markup Language",
-  },
-  {
-    id: 3,
-    title: "CSS",
-    description: "CSS Styling Language",
-  },
-];
+let data = [];
+
+
+
 
 
 const title = document.getElementById("title");
@@ -23,6 +10,7 @@ const description = document.getElementById("description");
 const Content = document.getElementById("coureses-contant");
 const form = document.getElementById("course-form");
 const searchInput = document.getElementById("search");
+const addcource = document.getElementById("submit");
 
 
 let nextId = data.length + 1 ;
@@ -77,7 +65,7 @@ function renderCourses( cource = data) {
     Content.appendChild(message);
     return;
   }
-
+  
   cource.forEach((course) => {
     const card = createCourseCard(course);
     Content.appendChild(card);
@@ -110,6 +98,8 @@ function addCourse(courseTitle, courseDescription) {
 
   data.push(newCourse);
 
+  saveCourses()
+
   nextId++;
 
   return newCourse;
@@ -118,6 +108,11 @@ function addCourse(courseTitle, courseDescription) {
 
 function deleteCourse(id) {
   data = data.filter((course) => course.id !== id);
+  if (updatedid === id ) {
+    updatedid = null
+    form.reset()
+  }
+  saveCourses();
 }
 
 function updateonCource(cource)
@@ -127,6 +122,8 @@ function updateonCource(cource)
   
   title.value = cource.title;
   description.value = cource.description;
+  addcource.textContent = "Update";
+
 }
 
 function updatedcource(id , newTitle , newDescription)
@@ -139,7 +136,9 @@ function updatedcource(id , newTitle , newDescription)
 
   course.title = newTitle;
   course.description = newDescription;
+  addcource.textContent = "add cource";
 
+  saveCourses()
 }
 
 
@@ -190,7 +189,24 @@ form.addEventListener("submit", (event) => {
 
 
 
+// localStorage 
 
+function saveCourses()
+{
+  localStorage.setItem( "cource" , JSON.stringify(data) )
+}
+
+function loadcource()
+{
+  const loadlocalstorage = localStorage.getItem("cource")
+  if( loadlocalstorage !== null)
+  {
+    data = JSON.parse(loadlocalstorage)
+  }
+
+}
+
+loadcource()
 
 
 searchInput.addEventListener("input", (event) => {
