@@ -2,15 +2,14 @@
 let data = [];
 
 
-
-
-
 const title = document.getElementById("title");
 const description = document.getElementById("description");
 const Content = document.getElementById("coureses-contant");
 const form = document.getElementById("course-form");
 const searchInput = document.getElementById("search");
 const addcource = document.getElementById("submit");
+const titleError = document.getElementById("title-error");
+const descriptionError = document.getElementById("description-error");
 
 
 let nextId = data.length + 1 ;
@@ -75,13 +74,27 @@ function renderCourses( cource = data) {
 
 
 function validateCourse(courseTitle, courseDescription) {
-  if (courseTitle.trim() === "") {
-    alert("Title is required");
+
+    setError(title);
+  setError(description);
+
+  if (courseTitle.trim().length < 3) {
+    setError(title, "Title must be at least 3 characters");
     return false;
   }
 
-  if (courseDescription.trim() === "") {
-    alert("Description is required");
+  if (courseTitle.trim().length > 50) {
+    setError(title, "Title must not exceed 50 characters");
+    return false;
+  }
+
+  if (courseDescription.trim().length < 10) {
+    setError(description, "Description must be at least 10 characters");
+    return false;
+  }
+
+  if (isDuplicatedItem(courseTitle, updatedid)) {
+    setError(title, "Course already exists");
     return false;
   }
 
@@ -90,11 +103,18 @@ function validateCourse(courseTitle, courseDescription) {
 
 
 function addCourse(courseTitle, courseDescription) {
+
+  if (isDuplicatedItem(courseTitle ) ) {
+    alert("Cources already is exist ")
+    return;
+  }
   const newCourse = {
     id: nextId,
     title: courseTitle.trim(),
     description: courseDescription.trim(),
   };
+  
+  
 
   data.push(newCourse);
 
@@ -216,3 +236,21 @@ searchInput.addEventListener("input", (event) => {
 
 renderCourses();
 
+
+function isDuplicatedItem(coursetitle , editingId = null){
+return(
+    data.some((check)=>{
+   return  check.title.trim().toLowerCase() ===  coursetitle.trim().toLowerCase()  &&
+      check.id !== editingId
+  } )
+  )
+
+
+}
+
+function setError(input, message = "") {
+  const errorElement = input.nextElementSibling;
+
+  input.classList.toggle("input-error", Boolean(message));
+  errorElement.textContent = message;
+}

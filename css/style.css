@@ -345,3 +345,16 @@ body {
   width: 60%;
   height: 50%;
 }
+
+.error-message {
+  display: block;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 18px;
+}
+
+.input-error {
+  border-color: #dc2626 !important;
+  background-color: #fff5f5 !important;
+}
