@@ -22,6 +22,7 @@ const title = document.getElementById("title");
 const description = document.getElementById("description");
 const Content = document.getElementById("coureses-contant");
 const form = document.getElementById("course-form");
+const searchInput = document.getElementById("search");
 
 
 let nextId = data.length + 1 ;
@@ -65,10 +66,10 @@ function createCourseCard(course) {
 }
 
 
-function renderCourses() {
+function renderCourses( cource = data) {
   Content.replaceChildren();
 
-  if (data.length === 0) {
+  if (cource.length === 0) {
     const message = document.createElement("p");
     message.classList.add("empty-message");
     message.textContent = "No Courses Found";
@@ -77,7 +78,7 @@ function renderCourses() {
     return;
   }
 
-  data.forEach((course) => {
+  cource.forEach((course) => {
     const card = createCourseCard(course);
     Content.appendChild(card);
   });
@@ -141,6 +142,21 @@ function updatedcource(id , newTitle , newDescription)
 
 }
 
+
+function searshcourse(searchtext)
+{
+
+  const datafilter = data.filter((c)=>{
+   return c.title
+      .toLowerCase()
+      .includes(searchtext.toLowerCase());
+  });    
+
+  renderCourses(datafilter)
+  
+}
+
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -172,4 +188,15 @@ form.addEventListener("submit", (event) => {
   
 });
 
+
+
+
+
+
+searchInput.addEventListener("input", (event) => {
+
+  searshcourse(event.target.value)
+});
+
 renderCourses();
+
